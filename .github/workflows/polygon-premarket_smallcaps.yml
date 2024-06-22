@@ -21,13 +21,18 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests pandas
+        pip install requests pandas ta
 
     - name: Fetch premarket small caps
       run: python APIs/POLYGON/fetch_premarket_smallcaps.py
       env:
         POLYGON_TOKEN: ${{ secrets.POLYGON_TOKEN }}
-
+        
+    - name: Calculate trading signals
+      run: python APIs/POLYGON/calculate_signals.py
+      env:
+        POLYGON_TOKEN: ${{ secrets.POLYGON_TOKEN }}
+        
     - name: Commit and push results
       run: |
         git config --global user.name 'Austin Songer'
