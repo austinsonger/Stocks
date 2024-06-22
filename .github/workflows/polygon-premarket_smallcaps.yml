@@ -40,4 +40,4 @@ jobs:
         git push
         git push https://x-access-token:${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}@github.com/${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}.git
       env:
-        GITHUB_TOKEN: ${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN || secrets.GH_PAT }}
