@@ -2,14 +2,14 @@ import os
 import requests
 import pandas as pd
 from datetime import datetime
-import time
 
 # Constants
 API_KEY = os.getenv('POLYGON_TOKEN')
+if API_KEY is None:
+    raise ValueError("No API key provided. Please set the POLYGON_API_KEY environment variable.")
+
 PREMARKET_ENDPOINT = 'https://api.polygon.io/v2/aggs/ticker/{ticker}/prev?adjusted=true&apiKey=' + API_KEY
 SMALLCAP_THRESHOLD = 2_000_000_000  # Market cap in USD (2 billion)
-API_CALL_LIMIT = 5  # 5 API calls per minute
-API_CALL_DELAY = 60 / API_CALL_LIMIT  # 12 seconds delay between calls
 
 def get_smallcap_tickers():
     url = 'https://api.polygon.io/v3/reference/tickers?market=stocks&type=CS&active=true&sort=market_cap&order=asc&limit=1000&apiKey=' + API_KEY
@@ -37,7 +37,6 @@ def fetch_premarket_data(tickers):
                     'close': latest_data['c'],
                     'market_cap': latest_data['c'] * latest_data['v']  # Simplified calculation
                 })
-        time.sleep(API_CALL_DELAY)  # Delay to respect API rate limit
     return premarket_data
 
 def filter_top_smallcaps(data):
