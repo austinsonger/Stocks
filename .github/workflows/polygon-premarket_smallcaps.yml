@@ -33,8 +33,10 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add premarket_smallcaps.md
-        if ls $(date +'%Y/%m/%d')/*.md 1> /dev/null 2>&1; then git add $(date +'%Y/%m/%d')/*.md; fi
-        git commit -m "Update premarket small cap companies list" || echo "No changes to commit"
+        mkdir -p $(date +'%Y/%m/%d')
+        touch $(date +'%Y/%m/%d')/dummy.md
+        git add $(date +'%Y/%m/%d')/*.md
+        git commit -m "Update premarket small cap companies list"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
