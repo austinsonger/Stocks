@@ -1,19 +1,15 @@
-import os
 import requests
 import pandas as pd
-from datetime import datetime
+import os
 
 # Constants
-API_KEY = os.getenv('POLYGON_TOKEN')
-if API_KEY is None:
-    raise ValueError("No API key provided. Please set the POLYGON_TOKEN environment variable.")
-
-PREMARKET_ENDPOINT = 'https://api.polygon.io/v2/aggs/ticker/{ticker}/prev?adjusted=true&apiKey=' + API_KEY
+API_URL = "https://api.polygon.io/v3/reference/tickers?market=stocks&type=CS&active=true&sort=market_cap&order=asc&limit=1000"
+PREMARKET_ENDPOINT = "https://api.polygon.io/v2/aggs/ticker/{ticker}/prev"
 SMALLCAP_THRESHOLD = 2_000_000_000  # Market cap in USD (2 billion)
+OUTPUT_FILE = "premarket_smallcaps.csv"
 
-def get_smallcap_tickers():
-    url = 'https://api.polygon.io/v3/reference/tickers?market=stocks&type=CS&active=true&sort=market_cap&order=asc&limit=1000&apiKey=' + API_KEY
-    response = requests.get(url)
+def get_smallcap_tickers(api_key):
+    response = requests.get(f"{API_URL}&apiKey={api_key}")
     tickers = []
     if response.status_code == 200:
         data = response.json()
@@ -22,10 +18,10 @@ def get_smallcap_tickers():
                 tickers.append(result['ticker'])
     return tickers
 
-def fetch_premarket_data(tickers):
+def fetch_premarket_data(tickers, api_key):
     premarket_data = []
     for ticker in tickers:
-        url = PREMARKET_ENDPOINT.format(ticker=ticker)
+        url = f"{PREMARKET_ENDPOINT.format(ticker=ticker)}?apiKey={api_key}"
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
@@ -44,33 +40,21 @@ def filter_top_smallcaps(data):
     sorted_smallcaps = sorted(smallcaps, key=lambda x: x['volume'], reverse=True)
     return sorted_smallcaps[:10]
 
-def save_to_markdown(companies):
-    date_path = datetime.now().strftime('%Y/%m/%d')
-    os.makedirs(date_path, exist_ok=True)
-
-    with open('premarket_smallcaps.md', 'w') as f:
-        f.write('# Top 10 Premarket Small Cap Companies\n')
-        f.write(f'Updated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n\n')
-        f.write('| Ticker | Volume | Close Price | Market Cap |\n')
-        f.write('| ------ | ------ | ----------- | ---------- |\n')
-        for company in companies:
-            f.write(f"| {company['ticker']} | {company['volume']} | {company['close']} | {company['market_cap']:,} |\n")
-            save_company_details(company, date_path)
-
-def save_company_details(company, date_path):
-    file_path = f"{date_path}/{company['ticker']}.md"
-    with open(file_path, 'w') as f:
-        f.write(f"# {company['ticker']}\n")
-        f.write(f"**Volume:** {company['volume']}\n")
-        f.write(f"**Close Price:** {company['close']}\n")
-        f.write(f"**Market Cap:** {company['market_cap']:,}\n")
-        # Add any additional relevant information here
+def save_premarket_data(df, file_path):
+    df.to_csv(file_path, index=False)
 
 def main():
-    tickers = get_smallcap_tickers()
-    premarket_data = fetch_premarket_data(tickers)
+    api_key = os.getenv('POLYGON_TOKEN')
+    if not api_key:
+        raise ValueError("Please set the POLYGON_TOKEN environment variable")
+    
+    tickers = get_smallcap_tickers(api_key)
+    premarket_data = fetch_premarket_data(tickers, api_key)
     top_smallcaps = filter_top_smallcaps(premarket_data)
-    save_to_markdown(top_smallcaps)
+    
+    # Convert to DataFrame
+    df = pd.DataFrame(top_smallcaps)
+    save_premarket_data(df, OUTPUT_FILE)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
