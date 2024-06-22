@@ -1,4 +1,4 @@
-name: Premarket Microcap Companies (Intrinio)
+name: INTRINO Premarket Microcap Companies (Intrinio)
 
 on:
   schedule:
