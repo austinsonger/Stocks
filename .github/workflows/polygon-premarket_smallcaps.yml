@@ -3,7 +3,8 @@ name: Premarket Small Cap Companies
 on:
   schedule:
     - cron: '0 9 * * *' 
-
+  workflow_dispatch:
+  
 jobs:
   fetch_premarket_smallcaps:
     runs-on: ubuntu-latest
@@ -23,7 +24,7 @@ jobs:
         pip install requests pandas
 
     - name: Fetch premarket small caps
-      run: python fetch_premarket_smallcaps.py
+      run: python APIs/POLYGON/fetch_premarket_smallcaps.py
 
     - name: Commit and push results
       run: |
