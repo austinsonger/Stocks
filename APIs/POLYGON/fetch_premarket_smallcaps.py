@@ -6,7 +6,7 @@ from datetime import datetime
 # Constants
 API_KEY = os.getenv('POLYGON_TOKEN')
 if API_KEY is None:
-    raise ValueError("No API key provided. Please set the POLYGON_API_KEY environment variable.")
+    raise ValueError("No API key provided. Please set the POLYGON_TOKEN environment variable.")
 
 PREMARKET_ENDPOINT = 'https://api.polygon.io/v2/aggs/ticker/{ticker}/prev?adjusted=true&apiKey=' + API_KEY
 SMALLCAP_THRESHOLD = 2_000_000_000  # Market cap in USD (2 billion)
