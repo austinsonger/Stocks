@@ -38,5 +38,6 @@ jobs:
         git add $(date +'%Y/%m/%d')/*.md
         git commit -m "Update premarket small cap companies list"
         git push
+        git push https://x-access-token:${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}@github.com/${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}.git
       env:
         GITHUB_TOKEN: ${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}
