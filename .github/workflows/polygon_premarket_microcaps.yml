@@ -24,7 +24,7 @@ jobs:
         pip install requests pandas
 
     - name: Fetch premarket microcaps
-      run: python fetch_premarket_microcaps.py
+      run: python APIs/POLYGON/fetch_premarket_microcaps.py
 
     - name: Commit and push results
       run: |
