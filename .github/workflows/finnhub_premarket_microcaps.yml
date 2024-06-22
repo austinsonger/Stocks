@@ -24,7 +24,9 @@ jobs:
 
     - name: Fetch premarket microcaps
       run: python APIs/FINNHUB/fetch_premarket_microcaps_finnhub.py
-
+      env:
+        POLYGON_API_KEY: ${{ secrets.FINNHUB_TOKEN }}
+        
     - name: Commit and push results
       run: |
         git config --local user.email "action@github.com"
