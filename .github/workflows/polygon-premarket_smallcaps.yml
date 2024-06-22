@@ -37,4 +37,4 @@ jobs:
         git commit -m "Update premarket small cap companies list"
         git push
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TRADING_GITHUB }}
