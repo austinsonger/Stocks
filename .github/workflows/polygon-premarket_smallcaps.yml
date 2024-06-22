@@ -26,7 +26,7 @@ jobs:
     - name: Fetch premarket small caps
       run: python APIs/POLYGON/fetch_premarket_smallcaps.py
       env:
-        POLYGON_API_KEY: ${{ secrets.POLYGON_TOKEN }}
+        POLYGON_TOKEN: ${{ secrets.POLYGON_TOKEN }}
 
     - name: Commit and push results
       run: |
