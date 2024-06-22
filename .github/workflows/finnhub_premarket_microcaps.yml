@@ -1,4 +1,4 @@
-name: Premarket Microcap Companies (Finnhub)
+name: FINNHUB Premarket Microcap Companies (Finnhub)
 
 on:
   schedule:
