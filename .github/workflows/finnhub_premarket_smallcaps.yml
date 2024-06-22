@@ -24,6 +24,8 @@ jobs:
 
     - name: Fetch premarket small caps
       run: python APIs/FINNHUB/fetch_premarket_smallcaps_finnhub.py
+      env:
+        POLYGON_API_KEY: ${{ secrets.FINNHUB_TOKEN }}
 
     - name: Commit and push results
       run: |
