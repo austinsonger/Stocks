@@ -1,10 +1,10 @@
 name: POLYGON Premarket Small Cap Companies
 
 on:
-#  schedule:
-#    - cron: '0 9 * * *' 
+  schedule:
+    - cron: '0 6 * * 1' # 2 AM EST is 6 AM UTC
   workflow_dispatch:
-  
+
 jobs:
   fetch_premarket_smallcaps:
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
       run: python APIs/POLYGON/fetch_premarket_smallcaps.py
       env:
         POLYGON_API_KEY: ${{ secrets.POLYGON_TOKEN }}
-        
+
     - name: Commit and push results
       run: |
         git config --local user.email "action@github.com"
