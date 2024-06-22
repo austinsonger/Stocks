@@ -58,7 +58,7 @@ def save_to_markdown(companies):
             save_company_details(company, date_path)
 
 def save_company_details(company, date_path):
-    file_path = f"{date_path}/{company['ticker']}.md"
+    file_path = f"{date_path}/POLYGON/{company['ticker']}.md"
     with open(file_path, 'w') as f:
         f.write(f"# {company['ticker']}\n")
         f.write(f"**Volume:** {company['volume']}\n")
