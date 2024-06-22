@@ -33,8 +33,11 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add premarket_microcaps.md
+        mkdir -p $(date +'%Y/%m/%d')
+        touch $(date +'%Y/%m/%d')/dummy.md
         git add $(date +'%Y/%m/%d')/*.md
         git commit -m "Update premarket microcap companies list"
         git push
       env:
-        GITHUB_TOKEN: ${{ secrets.TRADING_GITHUB }}
+        GITHUB_TOKEN: ${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}
+        
