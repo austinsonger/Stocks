@@ -23,7 +23,7 @@ jobs:
         pip install requests pandas
 
     - name: Fetch premarket microcaps
-      run: python fetch_premarket_microcaps_intrinio.py
+      run: python APIs/INTRINO/fetch_premarket_microcaps_intrinio.py
 
     - name: Commit and push results
       run: |
