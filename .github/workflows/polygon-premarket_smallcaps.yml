@@ -2,7 +2,7 @@ name: Premarket Small Cap Companies
 
 on:
   schedule:
-    - cron: '0 6 * * 1' # 2 AM EST is 6 AM UTC
+    - cron: '0 8 * * 1' 
 
 jobs:
   fetch_premarket_smallcaps:
