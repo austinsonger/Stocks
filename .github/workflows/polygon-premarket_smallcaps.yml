@@ -30,14 +30,19 @@ jobs:
 
     - name: Commit and push results
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        # git config --local user.email "action@github.com"
+        # git config --local user.name "GitHub Action"
+        git config --global user.name 'Austin Songer'
+        git config --global user.email 'a.songer@protonmail.com'
         git add premarket_smallcaps.md
         mkdir -p $(date +'%Y/%m/%d')
         touch $(date +'%Y/%m/%d')/dummy.md
         git add $(date +'%Y/%m/%d')/*.md
         git commit -m "Update premarket small cap companies list"
+        git remote set-url origin https://austinsonger:${{ secrets.TRADING_GITHUB || secrets.TRADING_TOKEN || secrets.GITHUB_TOKEN }}@github.com/austinsonger/trading-research.git
         git push
-        git push https://x-access-token:${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}@github.com/${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}.git
+        # git push https://x-access-token:${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}@github.com/${{ secrets.TRADING_GITHUB || secrets.GITHUB_TOKEN }}.git
       env:
         GITHUB_TOKEN: ${{ secrets.TRADING_GITHUB || secrets.TRADING_TOKEN || secrets.GITHUB_TOKEN }}
+
+
